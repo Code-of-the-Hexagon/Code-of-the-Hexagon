@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Asset_placement : MonoBehaviour
+public class assetPlacement : MonoBehaviour
 {
     public Mesh hexagonMesh;
     public List<GameObject> floorChildren;
-    private string floorModelDirectory = "";
+    private string floorModelDirectory = "Hexes/";
+    private string hexName = "defaultHex";
     #region test_variables
     public float testUpperHeightLimit = 0.4f;
     public float testLowerHeightLimit = 0f;
@@ -39,25 +40,23 @@ public class Asset_placement : MonoBehaviour
             {
                 if (i % 2 != 0)
                 {
-                    placeTile(new Vector3(j * x + x / 2, UnityEngine.Random.Range(testUpperHeightLimit, testLowerHeightLimit), i * y), "defaultHex");
-                    Debug.Log(String.Format(j * x + x / 2 + " " + i * y));
+                    placeTile(new Vector3(j * x + x / 2, UnityEngine.Random.Range(testUpperHeightLimit, testLowerHeightLimit), i * y), (floorModelDirectory + hexName));
                 }
                 else
-                    placeTile(new Vector3(j * x, UnityEngine.Random.Range(testUpperHeightLimit, testLowerHeightLimit), i * y), "defaultHex");
+                    placeTile(new Vector3(j * x, UnityEngine.Random.Range(testUpperHeightLimit, testLowerHeightLimit), i * y), (floorModelDirectory + hexName));
             }
         }
     }
-    void placeTile(Vector3 position, string hexBlockName)
+    void placeTile(Vector3 position, string hexBlockPath)
     {
-        hexBlockName = floorModelDirectory + hexBlockName;
-        GameObject hex = Resources.Load<GameObject>(hexBlockName);
+        GameObject hex = Resources.Load<GameObject>(hexBlockPath);
         if (hex != null)
         {
             floorChildren.Add(Instantiate<GameObject>(hex, position, Quaternion.LookRotation(Vector3.up, Vector3.forward), transform));
         }
         else
         {
-            //add error message
+            Debug.LogError($"Hex: {floorModelDirectory + hexBlockPath} is null");
         }
     }
 }
