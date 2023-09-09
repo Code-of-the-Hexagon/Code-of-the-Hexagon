@@ -1,3 +1,3 @@
-[submodule "Shared"]
-	path = Shared
+[submodule "Assets/Shared"]
+	path = Assets/Shared
 	url = https://github.com/Code-of-the-Hexagon/Code-of-the-Hexagon-Shared
