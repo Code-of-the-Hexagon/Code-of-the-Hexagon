@@ -349,10 +349,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floorChildren: []
-  testUpperHeightLimit: 0.4
+  testUpperHeightLimit: 0.8
   testLowerHeightLimit: 0
-  testCollumns: 10
-  testRows: 10
+  testCollumns: 50
+  testRows: 50
 --- !u!4 &2031528828
 Transform:
   m_ObjectHideFlags: 0
