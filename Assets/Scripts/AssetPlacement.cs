@@ -5,10 +5,9 @@ using UnityEngine;
 
 public class Asset_placement : MonoBehaviour
 {
+    public Mesh hexagonMesh;
     public List<GameObject> floorChildren;
-    private string floorModelDirectory = "Hexes/";
-    private float hex_size = 1.732f;//perkelti i constants
-
+    private string floorModelDirectory = "";
     #region test_variables
     public float testUpperHeightLimit = 0.4f;
     public float testLowerHeightLimit = 0f;
@@ -16,17 +15,21 @@ public class Asset_placement : MonoBehaviour
     public int testRows = 10;
     #endregion
 
-    // Start is called before the first frame update
+    // Variables for distance calculation
+    private Bounds hexagonBounds;
+    private float x;
+    private float y;
+    private int scale = 100; // scale of hexagon
+
     void Start()
     {
+        hexagonMesh = GetComponent<MeshFilter>().mesh;
+        hexagonBounds = hexagonMesh.bounds;
+        x = (hexagonBounds.max.x * 2) * scale;     // Coordinate offset
+        y = (hexagonBounds.max.y * 3 / 2) * scale; // calculations
+
         floorChildren = new List<GameObject>();
         placeTest(testCollumns, testRows);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
     void placeTest(int collumns, int rows)
     {
@@ -35,9 +38,12 @@ public class Asset_placement : MonoBehaviour
             for (int j = 0; j < rows; j++)
             {
                 if (i % 2 != 0)
-                    placeTile(new Vector3(j * hex_size + hex_size / 2, UnityEngine.Random.Range(testUpperHeightLimit, testLowerHeightLimit), i * 1.5f), "defaultHex");
+                {
+                    placeTile(new Vector3(j * x + x / 2, UnityEngine.Random.Range(testUpperHeightLimit, testLowerHeightLimit), i * y), "defaultHex");
+                    Debug.Log(String.Format(j * x + x / 2 + " " + i * y));
+                }
                 else
-                    placeTile(new Vector3(j * hex_size, UnityEngine.Random.Range(testUpperHeightLimit, testLowerHeightLimit), i * 1.5f), "defaultHex");
+                    placeTile(new Vector3(j * x, UnityEngine.Random.Range(testUpperHeightLimit, testLowerHeightLimit), i * y), "defaultHex");
             }
         }
     }
