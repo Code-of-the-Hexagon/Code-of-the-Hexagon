@@ -348,11 +348,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85dc377a4357c8b4bab37b703ddf3031, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floor_children: []
-  test_upper_height_limit: 0.4
-  test_lower_height_limit: 0
-  test_collumns: 50
-  test_rows: 20
+  floorChildren: []
+  testUpperHeightLimit: 0.4
+  testLowerHeightLimit: 0
+  testCollumns: 10
+  testRows: 10
 --- !u!4 &2031528828
 Transform:
   m_ObjectHideFlags: 0

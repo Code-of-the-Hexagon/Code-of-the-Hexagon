@@ -6,7 +6,7 @@ using UnityEngine;
 public class Asset_placement : MonoBehaviour
 {
     public List<GameObject> floorChildren;
-    private string floorModelDirectory = "";
+    private string floorModelDirectory = "Hexes/";
 
     #region test_variables
     public float testUpperHeightLimit = 0.4f;
@@ -34,9 +34,9 @@ public class Asset_placement : MonoBehaviour
             for (int j = 0; j < rows; j++)
             {
                 if (i % 2 != 0)
-                    placeTile(new Vector3(j * 1.732f + 0.866f, UnityEngine.Random.Range(testUpperHeightLimit, testLowerHeightLimit), i * 1.5f), "singleHex");
+                    placeTile(new Vector3(j * 1.732f + 0.866f, UnityEngine.Random.Range(testUpperHeightLimit, testLowerHeightLimit), i * 1.5f), "defaultHex");
                 else
-                    placeTile(new Vector3(j * 1.732f, UnityEngine.Random.Range(testUpperHeightLimit, testLowerHeightLimit), i * 1.5f), "singleHex");
+                    placeTile(new Vector3(j * 1.732f, UnityEngine.Random.Range(testUpperHeightLimit, testLowerHeightLimit), i * 1.5f), "defaultHex");
             }
         }
     }
