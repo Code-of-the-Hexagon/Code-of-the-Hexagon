@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -26,11 +27,6 @@ public class CameraControls : MonoBehaviour
     private Vector3 dragOrigin;
     Vector3 move;
     Vector3 rotate;
-
-    private void Start()
-    {
-        Application.targetFrameRate = 100;
-    }
 
     void LateUpdate()
     {
@@ -84,8 +80,7 @@ public class CameraControls : MonoBehaviour
 
         //Apply all transformations to camera object
         transform.Translate(move, Space.Self);
-        Vector3 relativePivot = new Vector3(0, 0, 0);
-        transform.RotateAround(relativePivot, rotate, rotateSpeed * Time.deltaTime);
+        transform.RotateAround(transform.position, rotate, rotateSpeed * Time.deltaTime);
     }
 
     //Check if the camera won't be moved to out of bounds
