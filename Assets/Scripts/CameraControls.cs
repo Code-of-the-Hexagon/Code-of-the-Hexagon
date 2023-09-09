@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class CameraControls : MonoBehaviour
 {
-    public float dragSpeed = 0.02f;
-    public float rotateSpeed = 0.02f;
+    private float dragSpeed = GameConstants.CameraConstants.FreeDragSpeed;
+    private float rotateSpeed = GameConstants.CameraConstants.FreeRotateSpeed;
     private Vector3 dragOrigin;
 
     void LateUpdate()
