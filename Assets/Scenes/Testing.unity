@@ -328,7 +328,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2031528828}
-  - component: {fileID: 2031528827}
+  - component: {fileID: 2031528829}
+  - component: {fileID: 2031528830}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -336,23 +337,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2031528827
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2031528826}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85dc377a4357c8b4bab37b703ddf3031, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  floorChildren: []
-  testUpperHeightLimit: 0.4
-  testLowerHeightLimit: 0
-  testCollumns: 10
-  testRows: 10
 --- !u!4 &2031528828
 Transform:
   m_ObjectHideFlags: 0
@@ -368,6 +352,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &2031528829
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2031528826}
+  m_Mesh: {fileID: 2534964839176971238, guid: 599f43931b6cd8d4fb92095f3c630893, type: 3}
+--- !u!114 &2031528830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2031528826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60fe18513469d9943ac30d8d776b2423, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floorChildren: []
+  testUpperHeightLimit: 0.4
+  testLowerHeightLimit: 0
+  testCollumns: 10
+  testRows: 10
+  tileRotation: {x: 0, y: 0, z: 0}
+  hexagonMesh: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
