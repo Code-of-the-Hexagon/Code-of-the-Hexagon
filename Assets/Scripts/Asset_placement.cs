@@ -5,21 +5,21 @@ using UnityEngine;
 
 public class Asset_placement : MonoBehaviour
 {
-    public List<GameObject> floor_children;
-    private string floor_model_directory = "";
+    public List<GameObject> floorChildren;
+    private string floorModelDirectory = "";
 
     #region test_variables
-    public float test_upper_height_limit = 0.4f;
-    public float test_lower_height_limit = 0f;
-    public int test_collumns = 10;
-    public int test_rows = 10;
+    public float testUpperHeightLimit = 0.4f;
+    public float testLowerHeightLimit = 0f;
+    public int testCollumns = 10;
+    public int testRows = 10;
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
-        floor_children = new List<GameObject>();
-        place_test(test_collumns, test_rows);
+        floorChildren = new List<GameObject>();
+        placeTest(testCollumns, testRows);
     }
 
     // Update is called once per frame
@@ -27,26 +27,26 @@ public class Asset_placement : MonoBehaviour
     {
         
     }
-    void place_test(int collumns, int rows)
+    void placeTest(int collumns, int rows)
     {
         for (int i = 0; i < collumns; i++)
         {
             for (int j = 0; j < rows; j++)
             {
                 if (i % 2 != 0)
-                    place_tile(new Vector3(j * 1.7f + 0.85f, UnityEngine.Random.Range(test_upper_height_limit, test_lower_height_limit), i * 1.5f), "singleHex");
+                    placeTile(new Vector3(j * 1.732f + 0.866f, UnityEngine.Random.Range(testUpperHeightLimit, testLowerHeightLimit), i * 1.5f), "singleHex");
                 else
-                    place_tile(new Vector3(j * 1.7f, UnityEngine.Random.Range(test_upper_height_limit, test_lower_height_limit), i * 1.5f), "singleHex");
+                    placeTile(new Vector3(j * 1.732f, UnityEngine.Random.Range(testUpperHeightLimit, testLowerHeightLimit), i * 1.5f), "singleHex");
             }
         }
     }
-    void place_tile(Vector3 position, string hex_block_name)
+    void placeTile(Vector3 position, string hexBlockName)
     {
-        hex_block_name = floor_model_directory + hex_block_name;
-        GameObject hex = Resources.Load<GameObject>(hex_block_name);
+        hexBlockName = floorModelDirectory + hexBlockName;
+        GameObject hex = Resources.Load<GameObject>(hexBlockName);
         if (hex != null)
         {
-            floor_children.Add(Instantiate<GameObject>(hex, position, Quaternion.LookRotation(Vector3.up, Vector3.forward), transform));
+            floorChildren.Add(Instantiate<GameObject>(hex, position, Quaternion.LookRotation(Vector3.up, Vector3.forward), transform));
         }
         else
         {
