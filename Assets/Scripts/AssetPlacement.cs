@@ -35,9 +35,9 @@ public class Asset_placement : MonoBehaviour
             for (int j = 0; j < rows; j++)
             {
                 if (i % 2 != 0)
-                    placeTile(new Vector3(j * hex_size + hex_size / 2, UnityEngine.Random.Range(testUpperHeightLimit, testLowerHeightLimit), i * hex_size / 500 * 433), "defaultHex");
+                    placeTile(new Vector3(j * hex_size + hex_size / 2, UnityEngine.Random.Range(testUpperHeightLimit, testLowerHeightLimit), i * 1.5f), "defaultHex");
                 else
-                    placeTile(new Vector3(j * hex_size, UnityEngine.Random.Range(testUpperHeightLimit, testLowerHeightLimit), i * hex_size / 500 * 433), "defaultHex");
+                    placeTile(new Vector3(j * hex_size, UnityEngine.Random.Range(testUpperHeightLimit, testLowerHeightLimit), i * 1.5f), "defaultHex");
             }
         }
     }
