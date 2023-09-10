@@ -14,6 +14,8 @@ public class CameraControls : MonoBehaviour
     private readonly float zoomScale = GameConstants.CameraConstants.FreeZoomScale;
     private readonly float cameraMovementSpeedMultiplier = GameConstants.CameraConstants.FreeCameraBoostMultiplier;
     private readonly float cameraRotationSpeedMultiplier = GameConstants.CameraConstants.FreeRotateBoostMultiplier;
+    public float cameraAngle = 44.713f;//add to constants later (idk how)
+    public Vector3 cameraOffset;//also add to constants (0, 4.15f, -5) 
 
     private Vector3 cameraUpperLimit = GameConstants.CameraConstants.FreeCameraUpperLimit;
     private Vector3 cameraLowerLimit = GameConstants.CameraConstants.FreeCameraLowerLimit;
@@ -30,8 +32,12 @@ public class CameraControls : MonoBehaviour
     private Vector3 dragOrigin;
     Vector3 move;
     Vector3 rotate;
-    float moveSpeedMultiplier = 1.0f;
-    float rotationSpeedMultiplier = 1.0f;
+    public float rotationSpeedMultiplier = 1.0f;
+    public Vector3 rotationPointAbs;
+    private void Start()
+    {
+        GameObject.FindGameObjectWithTag("MainCamera").transform.position += cameraOffset;
+    }
 
     void LateUpdate()
     {
@@ -40,12 +46,10 @@ public class CameraControls : MonoBehaviour
 
         if (Input.GetKey(speedBoostKey))
         {
-            moveSpeedMultiplier = cameraMovementSpeedMultiplier;
             rotationSpeedMultiplier = cameraRotationSpeedMultiplier;
         }
         else
         {
-            moveSpeedMultiplier = 1.0f;
             rotationSpeedMultiplier = 1.0f;
         }
 
@@ -66,19 +70,19 @@ public class CameraControls : MonoBehaviour
 
             if (Input.GetKey(moveForwardsKey))
             {
-                move += new Vector3(0, 0, cameraSpeed * Time.deltaTime * moveSpeedMultiplier);
+                move += new Vector3(0, 0, cameraSpeed * Time.deltaTime);
             }
             if (Input.GetKey(moveBackwardsKey))
             {
-                move += new Vector3(0, 0, -cameraSpeed * Time.deltaTime * moveSpeedMultiplier);
+                move += new Vector3(0, 0, -cameraSpeed * Time.deltaTime);
             }
             if (Input.GetKey(moveLeftKey))
             {
-                move += new Vector3(-cameraSpeed * Time.deltaTime * moveSpeedMultiplier, 0, 0);
+                move += new Vector3(-cameraSpeed * Time.deltaTime, 0, 0);
             }
             if (Input.GetKey(moveRightKey))
             {
-                move += new Vector3(cameraSpeed * Time.deltaTime * moveSpeedMultiplier, 0, 0);
+                move += new Vector3(cameraSpeed * Time.deltaTime, 0, 0);
             }
         }
 
@@ -91,27 +95,59 @@ public class CameraControls : MonoBehaviour
             rotate += new Vector3(0, 1, 0);
         }
 
-        // Scroll camera up and down
-        move += new Vector3(0, -Input.mouseScrollDelta.y * zoomScale, 0);
+        //camera speed dependant on zoom (0.8x zoomed in, cameraMovementSpeedMultiplierX zommed out)
+        float speed = transform.position.y / ((cameraUpperLimit.y - cameraLowerLimit.y) / cameraMovementSpeedMultiplier);
+        if (speed < 0.8) speed = 0.8f;
+        move *= speed;
 
-        LimitCameraMovementToBounds(ref move);
-
-        //Apply all transformations to camera object
+        //calculating the move with real pos
+        Vector3 temp1 = transform.position;
         transform.Translate(move, Space.Self);
-        transform.RotateAround(transform.position, rotate, rotateSpeed * Time.deltaTime * rotationSpeedMultiplier);
-    }
+        Vector3 temp = transform.position;
+        Vector3 realMove = temp - temp1, temp2 = rotationPointAbs, temp3;
 
-    //Check if the camera won't be moved to out of bounds
-    void LimitCameraMovementToBounds(ref Vector3 move)
+        //moving and limiting the rotation point
+        rotationPointAbs += realMove;
+        limitPointMovement(ref rotationPointAbs);
+
+        //moving the camera relatively to rotation point 
+        temp3 = rotationPointAbs - temp2;
+        transform.position = temp1 + temp3;
+
+
+
+        //calc Scroll at an angle
+        Vector3 scrollMovement = CalculateScrollMovement(-Input.mouseScrollDelta.y);
+        move = scrollMovement;
+
+        //aplying scroll and rotation movement
+        transform.Translate(move, Space.Self);
+        transform.RotateAround(rotationPointAbs, rotate, rotateSpeed * Time.deltaTime * rotationSpeedMultiplier);
+    }
+    //Check if point istn't out of bounds
+    void limitPointMovement(ref Vector3 cordinates)
+    {
+        if (cordinates.x > cameraUpperLimit.x) cordinates.x = cameraUpperLimit.x;
+        if (cordinates.x < cameraLowerLimit.x) cordinates.x = cameraLowerLimit.x;
+        if (cordinates.z > cameraUpperLimit.z) cordinates.z = cameraUpperLimit.z;
+        if (cordinates.z < cameraLowerLimit.z) cordinates.z = cameraLowerLimit.z;
+    }
+    //Check if zoom istn't out of bounds
+    void LimitCameraZoomMovement(ref Vector3 ZoomMove)
     {
         Vector3 currentPos = transform.position;
-        LimitMovementAxisToBounds(currentPos.x, ref move.x, cameraUpperLimit.x, cameraLowerLimit.x);
-        LimitMovementAxisToBounds(currentPos.y, ref move.y, cameraUpperLimit.y, cameraLowerLimit.y);
-        LimitMovementAxisToBounds(currentPos.z, ref move.z, cameraUpperLimit.z, cameraLowerLimit.z);
+        if (currentPos.y + ZoomMove.y > cameraUpperLimit.y || currentPos.y + ZoomMove.y < cameraLowerLimit.y)
+        {
+            ZoomMove.y = 0;
+            ZoomMove.z = 0;
+        }
     }
-    void LimitMovementAxisToBounds(float currentPos, ref float move, float upperLimit, float lowerlimit)
+    Vector3 CalculateScrollMovement(float scrollDelta)
     {
-        if (currentPos + move > upperLimit) move = upperLimit - currentPos;
-        if (currentPos + move < lowerlimit) move = lowerlimit - currentPos;
+        Vector3 Move = new Vector3();
+        Move.y = scrollDelta * zoomScale * (float)Math.Sin((double)cameraAngle);
+        Move.z = -scrollDelta * zoomScale * (float)Math.Cos((double)cameraAngle);
+        LimitCameraZoomMovement(ref Move);
+        return Move;
     }
 }
