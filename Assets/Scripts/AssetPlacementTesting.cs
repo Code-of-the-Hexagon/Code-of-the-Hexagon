@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class assetPlacementTesting : MonoBehaviour
 {
-    public List<GameObject> floorChildren;
+    public assetPlacement assetPlacer;
     public float testUpperHeightLimit = 0.4f;
     public float testLowerHeightLimit = 0f;
     public int testCollumns = 10;
@@ -23,7 +23,8 @@ public class assetPlacementTesting : MonoBehaviour
 
     private void Start()
     {
-        floorChildren = new List<GameObject>();
+        assetPlacer = gameObject.AddComponent<assetPlacement>(); // prideda assetComponent scripto instance prie Floor GameObject, ir j refrence'ina su assetPlacer
+        assetPlacer.floorChildren = new List<GameObject>();
         hexagonMesh = GetComponent<MeshFilter>().mesh;
         hexagonBounds = hexagonMesh.bounds;
         x = (hexagonBounds.max.x * 2) * scale;     // Coordinate offset
@@ -41,23 +42,11 @@ public class assetPlacementTesting : MonoBehaviour
             {
                 if (i % 2 != 0)
                 {
-                    placeObject(new Vector3(j * x + x / 2, UnityEngine.Random.Range(testUpperHeightLimit, testLowerHeightLimit), i * y), tileRotation, (floorModelDirectory + hexName));
+                    assetPlacer.placeGameObject(new Vector3(j * x + x / 2, UnityEngine.Random.Range(testUpperHeightLimit, testLowerHeightLimit), i * y), tileRotation, (floorModelDirectory + hexName));
                 }
                 else
-                    placeObject(new Vector3(j * x, UnityEngine.Random.Range(testUpperHeightLimit, testLowerHeightLimit), i * y), tileRotation, (floorModelDirectory + hexName));
+                    assetPlacer.placeGameObject(new Vector3(j * x, UnityEngine.Random.Range(testUpperHeightLimit, testLowerHeightLimit), i * y), tileRotation, (floorModelDirectory + hexName));
             }
-        }
-    }
-    void placeObject(Vector3 position, Vector3 rotation, string objectPath)
-    {
-        GameObject objectToPlace = Resources.Load<GameObject>(objectPath);
-        if (objectToPlace != null)
-        {
-            floorChildren.Add(Instantiate<GameObject>(objectToPlace, position, Quaternion.Euler(rotation.x, rotation.y, rotation.z), transform));
-        }
-        else
-        {
-            Debug.LogError($"Hex: {objectPath} is null");
         }
     }
 }

@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class assetPlacement: MonoBehaviour
 {
-    public List<GameObject> floorChildren;
-    
+    public List<GameObject> floorChildren { get; set; } // <- scary public set
+
     void Start()
     {
         floorChildren = new List<GameObject>();
     }
 
-    void placeObject(Vector3 position, Vector3 rotation, string objectPath)
+    public void placeGameObject(Vector3 position, Vector3 rotation, string objectPath)
     {
         GameObject objectToPlace = Resources.Load<GameObject>(objectPath);
         if (objectToPlace != null)
