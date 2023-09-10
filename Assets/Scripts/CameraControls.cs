@@ -1,41 +1,54 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
 public class CameraControls : MonoBehaviour
 {
     //Constants
-    private float dragSpeed = GameConstants.CameraConstants.FreeDragSpeed;
-    private float rotateSpeed = GameConstants.CameraConstants.FreeRotateSpeed;
-    private float cameraSpeed = GameConstants.CameraConstants.FreeCameraSpeed;
-    private float zoomScale = GameConstants.CameraConstants.FreeZoomScale;
+    private readonly float dragSpeed = GameConstants.CameraConstants.FreeDragSpeed;
+    private readonly float rotateSpeed = GameConstants.CameraConstants.FreeRotateSpeed;
+    private readonly float cameraSpeed = GameConstants.CameraConstants.FreeCameraSpeed;
+    private readonly float zoomScale = GameConstants.CameraConstants.FreeZoomScale;
+    private readonly float cameraMovementSpeedMultiplier = GameConstants.CameraConstants.FreeCameraBoostMultiplier;
+    private readonly float cameraRotationSpeedMultiplier = GameConstants.CameraConstants.FreeRotateBoostMultiplier;
 
     private Vector3 cameraUpperLimit = GameConstants.CameraConstants.FreeCameraUpperLimit;
     private Vector3 cameraLowerLimit = GameConstants.CameraConstants.FreeCameraLowerLimit;
 
     //Keyboard settings
-    private string moveForwardsKey = KeyboardSettings.MoveCameraForwards;
-    private string moveBackwardsKey = KeyboardSettings.MoveCameraBackwards;
-    private string moveLeftKey = KeyboardSettings.MoveCameraLeft;
-    private string moveRightKey = KeyboardSettings.MoveCameraRight;
-    private string rotateLeftKey = KeyboardSettings.RotateCameraLeft;
-    private string rotateRightKey = KeyboardSettings.RotateCameraRight;
+    private readonly KeyCode moveForwardsKey = KeyboardSettings.MoveCameraForwards;
+    private readonly KeyCode moveBackwardsKey = KeyboardSettings.MoveCameraBackwards;
+    private readonly KeyCode moveLeftKey = KeyboardSettings.MoveCameraLeft;
+    private readonly KeyCode moveRightKey = KeyboardSettings.MoveCameraRight;
+    private readonly KeyCode rotateLeftKey = KeyboardSettings.RotateCameraLeft;
+    private readonly KeyCode rotateRightKey = KeyboardSettings.RotateCameraRight;
+    private readonly KeyCode speedBoostKey = KeyboardSettings.IncreaseCameraSpeed;
 
     private Vector3 dragOrigin;
     Vector3 move;
     Vector3 rotate;
-
-    private void Start()
-    {
-        Application.targetFrameRate = 100;
-    }
+    float moveSpeedMultiplier = 1.0f;
+    float rotationSpeedMultiplier = 1.0f;
 
     void LateUpdate()
     {
         move = new Vector3();
         rotate = new Vector3();
+
+        if (Input.GetKey(speedBoostKey))
+        {
+            moveSpeedMultiplier = cameraMovementSpeedMultiplier;
+            rotationSpeedMultiplier = cameraRotationSpeedMultiplier;
+        }
+        else
+        {
+            moveSpeedMultiplier = 1.0f;
+            rotationSpeedMultiplier = 1.0f;
+        }
+
 
         // Use middle-click to drag the camera
         if (Input.GetMouseButtonDown(2))
@@ -50,21 +63,22 @@ public class CameraControls : MonoBehaviour
         }
         else
         {
+
             if (Input.GetKey(moveForwardsKey))
             {
-                move += new Vector3(0, 0, cameraSpeed * Time.deltaTime);
+                move += new Vector3(0, 0, cameraSpeed * Time.deltaTime * moveSpeedMultiplier);
             }
             if (Input.GetKey(moveBackwardsKey))
             {
-                move += new Vector3(0, 0, -cameraSpeed * Time.deltaTime);
+                move += new Vector3(0, 0, -cameraSpeed * Time.deltaTime * moveSpeedMultiplier);
             }
             if (Input.GetKey(moveLeftKey))
             {
-                move += new Vector3(-cameraSpeed * Time.deltaTime, 0, 0);
+                move += new Vector3(-cameraSpeed * Time.deltaTime * moveSpeedMultiplier, 0, 0);
             }
             if (Input.GetKey(moveRightKey))
             {
-                move += new Vector3(cameraSpeed * Time.deltaTime, 0, 0);
+                move += new Vector3(cameraSpeed * Time.deltaTime * moveSpeedMultiplier, 0, 0);
             }
         }
 
@@ -84,8 +98,7 @@ public class CameraControls : MonoBehaviour
 
         //Apply all transformations to camera object
         transform.Translate(move, Space.Self);
-        Vector3 relativePivot = new Vector3(0, 0, 0);
-        transform.RotateAround(relativePivot, rotate, rotateSpeed * Time.deltaTime);
+        transform.RotateAround(transform.position, rotate, rotateSpeed * Time.deltaTime * rotationSpeedMultiplier);
     }
 
     //Check if the camera won't be moved to out of bounds
