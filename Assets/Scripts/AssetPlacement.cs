@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class assetPlacement: MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class assetPlacement: MonoBehaviour
 
     public void placeGameObject(Vector3 position, Vector3 rotation, string objectPath)
     {
+        
         GameObject objectToPlace = Resources.Load<GameObject>(objectPath);
         if (objectToPlace != null)
         {
