@@ -8,106 +8,106 @@ using UnityEngine;
 public class CameraControls : MonoBehaviour
 {
     //Constants
-    private readonly float dragSpeed = GameConstants.CameraConstants.FreeDragSpeed;
-    private readonly float rotateSpeed = GameConstants.CameraConstants.FreeRotateSpeed;
-    private readonly float cameraSpeed = GameConstants.CameraConstants.FreeCameraSpeed;
-    private readonly float zoomScale = GameConstants.CameraConstants.FreeZoomScale;
-    private readonly float cameraMovementSpeedMultiplier = GameConstants.CameraConstants.FreeCameraBoostMultiplier;
-    private readonly float cameraRotationSpeedMultiplier = GameConstants.CameraConstants.FreeRotateBoostMultiplier;
+    private readonly float _dragSpeed = GameConstants.CameraConstants.FreeDragSpeed;
+    private readonly float _rotateSpeed = GameConstants.CameraConstants.FreeRotateSpeed;
+    private readonly float _cameraSpeed = GameConstants.CameraConstants.FreeCameraSpeed;
+    private readonly float _zoomScale = GameConstants.CameraConstants.FreeZoomScale;
+    private readonly float _cameraMovementSpeedMultiplier = GameConstants.CameraConstants.FreeCameraBoostMultiplier;
+    private readonly float _cameraRotationSpeedMultiplier = GameConstants.CameraConstants.FreeRotateBoostMultiplier;
 
-    private Vector3 cameraUpperLimit = GameConstants.CameraConstants.FreeCameraUpperLimit;
-    private Vector3 cameraLowerLimit = GameConstants.CameraConstants.FreeCameraLowerLimit;
+    private Vector3 _cameraUpperLimit = GameConstants.CameraConstants.FreeCameraUpperLimit;
+    private Vector3 _cameraLowerLimit = GameConstants.CameraConstants.FreeCameraLowerLimit;
 
     //Keyboard settings
-    private readonly KeyCode moveForwardsKey = KeyboardSettings.MoveCameraForwards;
-    private readonly KeyCode moveBackwardsKey = KeyboardSettings.MoveCameraBackwards;
-    private readonly KeyCode moveLeftKey = KeyboardSettings.MoveCameraLeft;
-    private readonly KeyCode moveRightKey = KeyboardSettings.MoveCameraRight;
-    private readonly KeyCode rotateLeftKey = KeyboardSettings.RotateCameraLeft;
-    private readonly KeyCode rotateRightKey = KeyboardSettings.RotateCameraRight;
-    private readonly KeyCode speedBoostKey = KeyboardSettings.IncreaseCameraSpeed;
+    private readonly KeyCode _moveForwardsKey = KeyboardSettings.MoveCameraForwards;
+    private readonly KeyCode _moveBackwardsKey = KeyboardSettings.MoveCameraBackwards;
+    private readonly KeyCode _moveLeftKey = KeyboardSettings.MoveCameraLeft;
+    private readonly KeyCode _moveRightKey = KeyboardSettings.MoveCameraRight;
+    private readonly KeyCode _rotateLeftKey = KeyboardSettings.RotateCameraLeft;
+    private readonly KeyCode _rotateRightKey = KeyboardSettings.RotateCameraRight;
+    private readonly KeyCode _speedBoostKey = KeyboardSettings.IncreaseCameraSpeed;
 
-    private Vector3 dragOrigin;
-    Vector3 move;
-    Vector3 rotate;
-    float moveSpeedMultiplier = 1.0f;
-    float rotationSpeedMultiplier = 1.0f;
+    private Vector3 _dragOrigin;
+    private Vector3 _move;
+    private Vector3 _rotate;
+    private float _moveSpeedMultiplier = 1.0f;
+    private float _rotationSpeedMultiplier = 1.0f;
 
     void LateUpdate()
     {
-        move = new Vector3();
-        rotate = new Vector3();
+        _move = new Vector3();
+        _rotate = new Vector3();
 
-        if (Input.GetKey(speedBoostKey))
+        if (Input.GetKey(_speedBoostKey))
         {
-            moveSpeedMultiplier = cameraMovementSpeedMultiplier;
-            rotationSpeedMultiplier = cameraRotationSpeedMultiplier;
+            _moveSpeedMultiplier = _cameraMovementSpeedMultiplier;
+            _rotationSpeedMultiplier = _cameraRotationSpeedMultiplier;
         }
         else
         {
-            moveSpeedMultiplier = 1.0f;
-            rotationSpeedMultiplier = 1.0f;
+            _moveSpeedMultiplier = 1.0f;
+            _rotationSpeedMultiplier = 1.0f;
         }
 
 
         // Use middle-click to drag the camera
         if (Input.GetMouseButtonDown(2))
         {
-            dragOrigin = Input.mousePosition;
+            _dragOrigin = Input.mousePosition;
         }
         if (Input.GetMouseButton(2))
         {
             // Difference between current mouse position and mouse position when button was clicked
-            Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
-            move += new Vector3(pos.x * dragSpeed * Time.deltaTime, 0, pos.y * dragSpeed * Time.deltaTime);
+            Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - _dragOrigin);
+            _move += new Vector3(pos.x * _dragSpeed * Time.deltaTime, 0, pos.y * _dragSpeed * Time.deltaTime);
         }
         else
         {
 
-            if (Input.GetKey(moveForwardsKey))
+            if (Input.GetKey(_moveForwardsKey))
             {
-                move += new Vector3(0, 0, cameraSpeed * Time.deltaTime * moveSpeedMultiplier);
+                _move += new Vector3(0, 0, _cameraSpeed * Time.deltaTime * _moveSpeedMultiplier);
             }
-            if (Input.GetKey(moveBackwardsKey))
+            if (Input.GetKey(_moveBackwardsKey))
             {
-                move += new Vector3(0, 0, -cameraSpeed * Time.deltaTime * moveSpeedMultiplier);
+                _move += new Vector3(0, 0, -_cameraSpeed * Time.deltaTime * _moveSpeedMultiplier);
             }
-            if (Input.GetKey(moveLeftKey))
+            if (Input.GetKey(_moveLeftKey))
             {
-                move += new Vector3(-cameraSpeed * Time.deltaTime * moveSpeedMultiplier, 0, 0);
+                _move += new Vector3(-_cameraSpeed * Time.deltaTime * _moveSpeedMultiplier, 0, 0);
             }
-            if (Input.GetKey(moveRightKey))
+            if (Input.GetKey(_moveRightKey))
             {
-                move += new Vector3(cameraSpeed * Time.deltaTime * moveSpeedMultiplier, 0, 0);
+                _move += new Vector3(_cameraSpeed * Time.deltaTime * _moveSpeedMultiplier, 0, 0);
             }
         }
 
-        if (Input.GetKey(rotateRightKey))
+        if (Input.GetKey(_rotateRightKey))
         {
-            rotate += new Vector3(0, -1, 0);
+            _rotate += new Vector3(0, -1, 0);
         }
-        else if (Input.GetKey(rotateLeftKey))
+        else if (Input.GetKey(_rotateLeftKey))
         {
-            rotate += new Vector3(0, 1, 0);
+            _rotate += new Vector3(0, 1, 0);
         }
 
         // Scroll camera up and down
-        move += new Vector3(0, -Input.mouseScrollDelta.y * zoomScale, 0);
+        _move += new Vector3(0, -Input.mouseScrollDelta.y * _zoomScale, 0);
 
-        LimitCameraMovementToBounds(ref move);
+        LimitCameraMovementToBounds(ref _move);
 
         //Apply all transformations to camera object
-        transform.Translate(move, Space.Self);
-        transform.RotateAround(transform.position, rotate, rotateSpeed * Time.deltaTime * rotationSpeedMultiplier);
+        transform.Translate(_move, Space.Self);
+        transform.RotateAround(transform.position, _rotate, _rotateSpeed * Time.deltaTime * _rotationSpeedMultiplier);
     }
 
     //Check if the camera won't be moved to out of bounds
     void LimitCameraMovementToBounds(ref Vector3 move)
     {
         Vector3 currentPos = transform.position;
-        LimitMovementAxisToBounds(currentPos.x, ref move.x, cameraUpperLimit.x, cameraLowerLimit.x);
-        LimitMovementAxisToBounds(currentPos.y, ref move.y, cameraUpperLimit.y, cameraLowerLimit.y);
-        LimitMovementAxisToBounds(currentPos.z, ref move.z, cameraUpperLimit.z, cameraLowerLimit.z);
+        LimitMovementAxisToBounds(currentPos.x, ref move.x, _cameraUpperLimit.x, _cameraLowerLimit.x);
+        LimitMovementAxisToBounds(currentPos.y, ref move.y, _cameraUpperLimit.y, _cameraLowerLimit.y);
+        LimitMovementAxisToBounds(currentPos.z, ref move.z, _cameraUpperLimit.z, _cameraLowerLimit.z);
     }
     void LimitMovementAxisToBounds(float currentPos, ref float move, float upperLimit, float lowerlimit)
     {

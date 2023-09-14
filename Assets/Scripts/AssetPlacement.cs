@@ -3,25 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class assetPlacement: MonoBehaviour
+public class AssetPlacement: MonoBehaviour
 {
-    public List<GameObject> floorChildren { get; set; } // <- scary public set
+    public List<GameObject> FloorChildren { get; set; } // <- scary public set
 
     void Start()
     {
-        floorChildren = new List<GameObject>();
+        FloorChildren = new List<GameObject>();
     }
 
-    public void placeGameObject(Vector3 position, Vector3 rotation, string objectPath)
+    public GameObject PlaceGameObject(GameObject objectToPlace, Vector3 position, Vector3 rotation)
     {
-        GameObject objectToPlace = Resources.Load<GameObject>(objectPath);
-        if (objectToPlace != null)
-        {
-            floorChildren.Add(Instantiate<GameObject>(objectToPlace, position, Quaternion.Euler(rotation.x, rotation.y, rotation.z), transform));
-        }
-        else
-        {
-            Debug.LogError($"Hex: {objectPath} is null");
-        }
+        var spawnedGameObject = Instantiate(objectToPlace, position,
+            Quaternion.Euler(rotation.x, rotation.y, rotation.z), transform);
+        FloorChildren.Add(spawnedGameObject);
+        return spawnedGameObject;
     }
 }

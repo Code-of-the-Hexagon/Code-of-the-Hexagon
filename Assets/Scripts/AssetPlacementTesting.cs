@@ -2,50 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class assetPlacementTesting : MonoBehaviour
+public class AssetPlacementTesting : MonoBehaviour
 {
-    public assetPlacement assetPlacer;
-    public float testUpperHeightLimit = 0.4f;
-    public float testLowerHeightLimit = 0f;
-    public int testCollumns = 10;
-    public int testRows = 10;
-    public Vector3 tileRotation = new Vector3();
-    public Mesh hexagonMesh;
-
-    private string floorModelDirectory = "Hexes/";
-    private string hexName = "defaultHex";
+    public AssetPlacement AssetPlacer;
+    public float TestUpperHeightLimit = 0.4f;
+    public float TestLowerHeightLimit = 0f;
+    public int TestCollumns = 10;
+    public int TestRows = 10;
+    public Mesh HexagonMesh;
+    public GameObject HexAsset;
+    public SelectedCellText CellTextScript;
 
     // Variables for distance calculation
-    private Bounds hexagonBounds;
-    private float x;
-    private float y;
-    private int scale = 100; // scale of hexagon
+    private Bounds _hexagonBounds;
+    private float _x;
+    private float _y;
+    private const int Scale = 100; // scale of hexagon
 
     private void Start()
     {
-        assetPlacer = gameObject.AddComponent<assetPlacement>(); // prideda assetComponent scripto instance prie Floor GameObject, ir j refrence'ina su assetPlacer
-        assetPlacer.floorChildren = new List<GameObject>();
-        hexagonMesh = GetComponent<MeshFilter>().mesh;
-        hexagonBounds = hexagonMesh.bounds;
-        x = (hexagonBounds.max.x * 2) * scale;     // Coordinate offset
-        y = (hexagonBounds.max.y * 3 / 2) * scale; // calculations
+        AssetPlacer = gameObject.AddComponent<AssetPlacement>(); // prideda assetComponent scripto instance prie Floor GameObject, ir j refrence'ina su assetPlacer
+        AssetPlacer.FloorChildren = new List<GameObject>();
+        HexagonMesh = GetComponent<MeshFilter>().mesh;
+        _hexagonBounds = HexagonMesh.bounds;
+        _x = (_hexagonBounds.max.x * 2) * Scale;     // Coordinate offset
+        _y = (_hexagonBounds.max.y * 3 / 2) * Scale; // calculation
 
-        tileRotation.x = 90f;
-
-        placeTest(testCollumns, testRows);
+        PlaceTest(TestCollumns, TestRows);
     }
-    void placeTest(int collumns, int rows)
+    private void PlaceTest(int collumns, int rows)
     {
         for (int i = 0; i < collumns; i++)
         {
             for (int j = 0; j < rows; j++)
             {
-                if (i % 2 != 0)
-                {
-                    assetPlacer.placeGameObject(new Vector3(j * x + x / 2, UnityEngine.Random.Range(testUpperHeightLimit, testLowerHeightLimit), i * y), tileRotation, (floorModelDirectory + hexName));
-                }
-                else
-                    assetPlacer.placeGameObject(new Vector3(j * x, UnityEngine.Random.Range(testUpperHeightLimit, testLowerHeightLimit), i * y), tileRotation, (floorModelDirectory + hexName));
+                var placedCell = AssetPlacer.PlaceGameObject(HexAsset,
+                    i % 2 != 0
+                        ? new Vector3(j * _x + _x / 2, TestLowerHeightLimit, i * _y)
+                        : new Vector3(j * _x, TestLowerHeightLimit, i * _y),
+                    new Vector3());
+                placedCell.GetComponent<GameObjectSelect>().SetLabel($"X = {i} Y = {j}");
+                placedCell.GetComponent<GameObjectSelect>().LabelScript = CellTextScript;
             }
         }
     }
