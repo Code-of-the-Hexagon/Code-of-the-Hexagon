@@ -1,17 +1,21 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class AssetPlacementTesting : MonoBehaviour
 {
     public AssetPlacement AssetPlacer;
     public float TestUpperHeightLimit;
     public float TestLowerHeightLimit;
-    public int TestCollumns = 10;
+    public int TestColumns = 10;
     public int TestRows = 10;
+
+    [SerializeField]
+    private int _obstacleProbability;
+
     public Mesh HexagonMesh;
     public GameObject HexAsset;
+    public GameObject HexObstacleAsset;
     public SelectedCellText CellTextScript;
     public GameObject CellContainer;
 
@@ -29,7 +33,7 @@ public class AssetPlacementTesting : MonoBehaviour
         _x = (_hexagonBounds.max.x * 2) * Scale;     // Coordinate offset
         _y = (_hexagonBounds.max.y * 3 / 2) * Scale; // calculation
 
-        PlaceTest(TestCollumns, TestRows);
+        PlaceTest(TestColumns, TestRows);
     }
     private void PlaceTest(int columns, int rows)
     {
@@ -37,7 +41,7 @@ public class AssetPlacementTesting : MonoBehaviour
         {
             for (var j = 0; j < rows; j++)
             {
-                var height = UnityEngine.Random.Range(TestLowerHeightLimit, TestUpperHeightLimit);
+                var height = Random.Range(TestLowerHeightLimit, TestUpperHeightLimit);
                 var placedCell = AssetPlacer.PlaceGameObject(
                     HexAsset,
                     i % 2 != 0
@@ -45,8 +49,22 @@ public class AssetPlacementTesting : MonoBehaviour
                         : new Vector3(j * _x, height, i * _y),
                     new Vector3(),
                     CellContainer.transform);
-                placedCell.GetComponent<GameObjectSelect>().SetLabel($"X = {i} Y = {j}");
-                placedCell.GetComponent<GameObjectSelect>().LabelScript = CellTextScript;
+                
+
+                if (Random.Range(0, 100) < _obstacleProbability)
+                {
+                    placedCell.GetComponent<GameObjectSelect>().enabled = false;
+                    AssetPlacer.PlaceGameObject(
+                        HexObstacleAsset, 
+                        placedCell.transform.GetChild(4).position,
+                        new Vector3(), 
+                        placedCell.transform);
+                }
+                else
+                {
+                    placedCell.GetComponent<GameObjectSelect>().SetLabel($"X = {i} Y = {j}");
+                    placedCell.GetComponent<GameObjectSelect>().LabelScript = CellTextScript;
+                }
             }
         }
     }

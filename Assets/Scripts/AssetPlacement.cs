@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AssetPlacement: MonoBehaviour
@@ -9,7 +6,7 @@ public class AssetPlacement: MonoBehaviour
     {
         var spawnedGameObject = Instantiate(objectToPlace, position,
             Quaternion.Euler(rotation.x, rotation.y, rotation.z), transform);
-        if (parentTransform is not null)
+        if (parentTransform != null)
         {
             spawnedGameObject.transform.SetParent(parentTransform);
         }

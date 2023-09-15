@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public static class GameConstants
@@ -13,9 +11,9 @@ public static class GameConstants
         public const float FreeRotateBoostMultiplier = 2f;
         public const float FreeZoomScale = 1f;
 
-        public readonly static Vector3 FreeCameraUpperLimit = 
-            new Vector3(100f, 15f, 100f);
-        public readonly static Vector3 FreeCameraLowerLimit =
-            new Vector3(-100f, 0f, -100f);
+        public static readonly Vector3 FreeCameraUpperLimit = 
+            new (100f, 15f, 100f);
+        public static readonly Vector3 FreeCameraLowerLimit =
+            new (-100f, 0f, -100f);
     }
 }

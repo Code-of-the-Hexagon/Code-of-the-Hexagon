@@ -1,6 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Reflection.Emit;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameObjectSelect : MonoBehaviour
@@ -18,6 +19,7 @@ public class GameObjectSelect : MonoBehaviour
 
     private void OnMouseEnter()
     {
+        if (!enabled) return;
         _enterCount++;
         LabelScript.ChangeSelectedCount(1);
         LabelScript.DisplayText(_label);
@@ -26,6 +28,7 @@ public class GameObjectSelect : MonoBehaviour
 
     private void OnMouseExit()
     {
+        if (!enabled) return;
         LabelScript.ChangeSelectedCount(-1);
         SetAllMaterialsToDefault();
     }
