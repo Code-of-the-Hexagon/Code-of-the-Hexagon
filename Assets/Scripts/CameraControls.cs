@@ -15,8 +15,8 @@ public class CameraControls : MonoBehaviour
     private readonly float _cameraMovementSpeedMultiplier = GameConstants.CameraConstants.FreeCameraBoostMultiplier;
     private readonly float _cameraRotationSpeedMultiplier = GameConstants.CameraConstants.FreeRotateBoostMultiplier;
 
-    private Vector3 _cameraUpperLimit = GameConstants.CameraConstants.FreeCameraUpperLimit;
-    private Vector3 _cameraLowerLimit = GameConstants.CameraConstants.FreeCameraLowerLimit;
+    private readonly Vector3 _cameraUpperLimit = GameConstants.CameraConstants.FreeCameraUpperLimit;
+    private readonly Vector3 _cameraLowerLimit = GameConstants.CameraConstants.FreeCameraLowerLimit;
 
     //Keyboard settings
     private readonly KeyCode _moveForwardsKey = KeyboardSettings.MoveCameraForwards;

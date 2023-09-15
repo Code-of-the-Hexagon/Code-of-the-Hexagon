@@ -17,7 +17,7 @@ public class SelectedCellText : MonoBehaviour
 
     private int _selectedCount = 0;
     private int _updateCount = 0;
-    private float _labelTurnOffTime = 2f;
+    private readonly float _labelTurnOffTime = 0.5f;
 
 
     public void Start()

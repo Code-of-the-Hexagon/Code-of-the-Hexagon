@@ -5,40 +5,43 @@ using UnityEngine;
 
 public class GameObjectSelect : MonoBehaviour
 {
-    public MeshRenderer Renderer;
-    public Material DefaultMaterial;
-    public Material SelectedMaterial;
-    public SelectedCellText LabelScript;
+    [SerializeField]
+    private MeshRenderer _renderer;
+    [SerializeField]
+    private Material _defaultMaterial;
+    [SerializeField]
+    private Material _selectedMaterial;
+    public SelectedCellText LabelScript { get; set; }
 
     private string _label;
 
     public void OnEnable()
     {
-        SetMaterial(DefaultMaterial);
+        SetMaterial(_defaultMaterial);
     }
 
     private void OnMouseEnter()
     {
         LabelScript.ChangeSelectedCount(1);
         LabelScript.DisplayText(_label);
-        SetMaterial(SelectedMaterial);
+        SetMaterial(_selectedMaterial);
     }
 
     private void OnMouseExit()
     {
         LabelScript.ChangeSelectedCount(-1);
-        SetMaterial(DefaultMaterial);
-    }
-
-    private void SetMaterial(Material material)
-    {
-        var materials = Renderer.materials;
-        materials[0] = material;
-        Renderer.materials = materials;
+        SetMaterial(_defaultMaterial);
     }
 
     public void SetLabel(string label)
     {
         _label = label;
+    }
+
+    private void SetMaterial(Material material)
+    {
+        var materials = _renderer.materials;
+        materials[0] = material;
+        _renderer.materials = materials;
     }
 }

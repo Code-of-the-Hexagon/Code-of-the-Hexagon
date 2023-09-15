@@ -833,8 +833,8 @@ MonoBehaviour:
   AssetPlacer: {fileID: 0}
   TestUpperHeightLimit: 0.4
   TestLowerHeightLimit: 0
-  TestCollumns: 30
-  TestRows: 30
+  TestCollumns: 100
+  TestRows: 100
   HexagonMesh: {fileID: 0}
   HexAsset: {fileID: 3754589174170542805, guid: 3d3c0303c10b590459c1a5ca9b9444e0, type: 3}
   CellTextScript: {fileID: 1866503534}
