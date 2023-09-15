@@ -5,29 +5,29 @@ using UnityEngine;
 
 public class GameObjectSelect : MonoBehaviour
 {
+    public SelectedCellText LabelScript { get; set; }
+
     [SerializeField]
-    private MeshRenderer _renderer;
-    
+    private List<MeshRenderer> _rendererList = new();
     [SerializeField]
     private Material _selectedMaterial;
 
-    private Material _defaultMaterial;
-    public SelectedCellText LabelScript { get; set; }
-
+    private List<Material> _defaultMaterialList;
     private string _label;
+    private int _enterCount = 0;
 
     private void OnMouseEnter()
     {
+        _enterCount++;
         LabelScript.ChangeSelectedCount(1);
         LabelScript.DisplayText(_label);
-        _defaultMaterial = GetMaterial();
-        SetMaterial(_selectedMaterial);
+        SetAllMaterials(_selectedMaterial, _enterCount == 1);
     }
 
     private void OnMouseExit()
     {
         LabelScript.ChangeSelectedCount(-1);
-        SetMaterial(_defaultMaterial);
+        SetAllMaterialsToDefault();
     }
 
     public void SetLabel(string label)
@@ -35,13 +35,41 @@ public class GameObjectSelect : MonoBehaviour
         _label = label;
     }
 
-    private void SetMaterial(Material material)
+    private void SetAllMaterialsToDefault()
     {
-        var materials = _renderer.materials;
-        materials[0] = material;
-        _renderer.materials = materials;
+        if (_defaultMaterialList.Count != _rendererList.Count)
+        {
+            throw new Exception("defaultMaterialList is not full");
+        }
+        for (var i = 0; i < _rendererList.Count; i++)
+        {
+            SetMaterial(i, _defaultMaterialList[i]);
+        }
     }
 
-    private Material GetMaterial() =>
-        _renderer.materials[0];
+    private void SetAllMaterials(Material material, bool updateDefaultMaterials = false)
+    {
+        if (updateDefaultMaterials)
+        {
+            _defaultMaterialList = new List<Material>();
+        }
+        
+        for (var i = 0; i < _rendererList.Count; i++)
+        {
+            if (updateDefaultMaterials)
+            {
+                _defaultMaterialList.Add(GetMaterial(i));
+            }
+
+            SetMaterial(i, material);
+        }
+    }
+
+    private void SetMaterial(int meshIndex, Material material)
+    {
+        _rendererList[meshIndex].materials = new [] { material };
+    }
+
+    private Material GetMaterial(int meshIndex) =>
+        _rendererList[meshIndex].materials[0];
 }

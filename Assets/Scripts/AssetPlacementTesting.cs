@@ -13,6 +13,7 @@ public class AssetPlacementTesting : MonoBehaviour
     public Mesh HexagonMesh;
     public GameObject HexAsset;
     public SelectedCellText CellTextScript;
+    public GameObject CellContainer;
 
     // Variables for distance calculation
     private Bounds _hexagonBounds;
@@ -23,7 +24,6 @@ public class AssetPlacementTesting : MonoBehaviour
     private void Start()
     {
         AssetPlacer = gameObject.AddComponent<AssetPlacement>(); // prideda assetComponent scripto instance prie Floor GameObject, ir j refrence'ina su assetPlacer
-        AssetPlacer.FloorChildren = new List<GameObject>();
         HexagonMesh = GetComponent<MeshFilter>().mesh;
         _hexagonBounds = HexagonMesh.bounds;
         _x = (_hexagonBounds.max.x * 2) * Scale;     // Coordinate offset
@@ -31,18 +31,20 @@ public class AssetPlacementTesting : MonoBehaviour
 
         PlaceTest(TestCollumns, TestRows);
     }
-    private void PlaceTest(int collumns, int rows)
+    private void PlaceTest(int columns, int rows)
     {
-        for (int i = 0; i < collumns; i++)
+        for (var i = 0; i < columns; i++)
         {
-            for (int j = 0; j < rows; j++)
+            for (var j = 0; j < rows; j++)
             {
                 var height = UnityEngine.Random.Range(TestLowerHeightLimit, TestUpperHeightLimit);
-                var placedCell = AssetPlacer.PlaceGameObject(HexAsset,
+                var placedCell = AssetPlacer.PlaceGameObject(
+                    HexAsset,
                     i % 2 != 0
                         ? new Vector3(j * _x + _x / 2, height, i * _y)
                         : new Vector3(j * _x, height, i * _y),
-                    new Vector3());
+                    new Vector3(),
+                    CellContainer.transform);
                 placedCell.GetComponent<GameObjectSelect>().SetLabel($"X = {i} Y = {j}");
                 placedCell.GetComponent<GameObjectSelect>().LabelScript = CellTextScript;
             }

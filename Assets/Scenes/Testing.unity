@@ -120,6 +120,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &206451338
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 206451339}
+  m_Layer: 0
+  m_Name: Game Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &206451339
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206451338}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &209212317
 GameObject:
   m_ObjectHideFlags: 0
@@ -190,7 +221,7 @@ Transform:
   m_GameObject: {fileID: 295430244}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 115.725204, y: 445.89557, z: 2.867543}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -331,10 +362,10 @@ RectTransform:
   - {fileID: 1886896906}
   m_Father: {fileID: 532219325}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -276.04288, y: 204.87103}
-  m_SizeDelta: {x: -552.0858, y: -409.742}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 96.95712, y: -20.128967}
+  m_SizeDelta: {x: 193.91418, y: 40.257996}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &814192222
 MonoBehaviour:
@@ -600,7 +631,7 @@ Transform:
   m_GameObject: {fileID: 1866503533}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.2913003, y: 2.8288822, z: 1.2676996}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -820,7 +851,7 @@ GameObject:
   - component: {fileID: 2031528829}
   - component: {fileID: 2031528830}
   m_Layer: 0
-  m_Name: Floor
+  m_Name: CellContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -835,7 +866,7 @@ Transform:
   m_GameObject: {fileID: 2031528826}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.19933322, y: 0, z: -0.3432236}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -862,13 +893,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AssetPlacer: {fileID: 0}
-  TestUpperHeightLimit: 0.4
+  TestUpperHeightLimit: 1
   TestLowerHeightLimit: 0
-  TestCollumns: 100
-  TestRows: 100
+  TestCollumns: 30
+  TestRows: 30
   HexagonMesh: {fileID: 0}
   HexAsset: {fileID: 3754589174170542805, guid: 3d3c0303c10b590459c1a5ca9b9444e0, type: 3}
   CellTextScript: {fileID: 1866503534}
+  CellContainer: {fileID: 2031528826}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -880,3 +912,4 @@ SceneRoots:
   - {fileID: 532219325}
   - {fileID: 1953856959}
   - {fileID: 295430245}
+  - {fileID: 206451339}
