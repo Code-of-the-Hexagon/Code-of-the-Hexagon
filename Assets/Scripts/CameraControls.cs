@@ -66,21 +66,23 @@ public class CameraControls : MonoBehaviour
 
             if (Input.GetKey(_moveForwardsKey))
             {
-                _move += new Vector3(0, 0, _cameraSpeed * Time.deltaTime * _moveSpeedMultiplier);
+                _move += new Vector3(0, 0, 1);
             }
             if (Input.GetKey(_moveBackwardsKey))
             {
-                _move += new Vector3(0, 0, -_cameraSpeed * Time.deltaTime * _moveSpeedMultiplier);
+                _move += new Vector3(0, 0, -1);
             }
             if (Input.GetKey(_moveLeftKey))
             {
-                _move += new Vector3(-_cameraSpeed * Time.deltaTime * _moveSpeedMultiplier, 0, 0);
+                _move += new Vector3(-1, 0, 0);
             }
             if (Input.GetKey(_moveRightKey))
             {
-                _move += new Vector3(_cameraSpeed * Time.deltaTime * _moveSpeedMultiplier, 0, 0);
+                _move += new Vector3(1, 0, 0);
             }
         }
+        _move.Normalize();
+        _move *= _cameraSpeed * Time.deltaTime * _moveSpeedMultiplier;
 
         if (Input.GetKey(_rotateRightKey))
         {

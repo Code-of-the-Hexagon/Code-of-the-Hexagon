@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,8 +6,8 @@ using UnityEngine;
 public class AssetPlacementTesting : MonoBehaviour
 {
     public AssetPlacement AssetPlacer;
-    public float TestUpperHeightLimit = 0.4f;
-    public float TestLowerHeightLimit = 0f;
+    public float TestUpperHeightLimit;
+    public float TestLowerHeightLimit;
     public int TestCollumns = 10;
     public int TestRows = 10;
     public Mesh HexagonMesh;
@@ -36,10 +37,11 @@ public class AssetPlacementTesting : MonoBehaviour
         {
             for (int j = 0; j < rows; j++)
             {
+                var height = UnityEngine.Random.Range(TestLowerHeightLimit, TestUpperHeightLimit);
                 var placedCell = AssetPlacer.PlaceGameObject(HexAsset,
                     i % 2 != 0
-                        ? new Vector3(j * _x + _x / 2, TestLowerHeightLimit, i * _y)
-                        : new Vector3(j * _x, TestLowerHeightLimit, i * _y),
+                        ? new Vector3(j * _x + _x / 2, height, i * _y)
+                        : new Vector3(j * _x, height, i * _y),
                     new Vector3());
                 placedCell.GetComponent<GameObjectSelect>().SetLabel($"X = {i} Y = {j}");
                 placedCell.GetComponent<GameObjectSelect>().LabelScript = CellTextScript;

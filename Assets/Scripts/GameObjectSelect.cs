@@ -7,23 +7,20 @@ public class GameObjectSelect : MonoBehaviour
 {
     [SerializeField]
     private MeshRenderer _renderer;
-    [SerializeField]
-    private Material _defaultMaterial;
+    
     [SerializeField]
     private Material _selectedMaterial;
+
+    private Material _defaultMaterial;
     public SelectedCellText LabelScript { get; set; }
 
     private string _label;
-
-    public void OnEnable()
-    {
-        SetMaterial(_defaultMaterial);
-    }
 
     private void OnMouseEnter()
     {
         LabelScript.ChangeSelectedCount(1);
         LabelScript.DisplayText(_label);
+        _defaultMaterial = GetMaterial();
         SetMaterial(_selectedMaterial);
     }
 
@@ -44,4 +41,7 @@ public class GameObjectSelect : MonoBehaviour
         materials[0] = material;
         _renderer.materials = materials;
     }
+
+    private Material GetMaterial() =>
+        _renderer.materials[0];
 }
