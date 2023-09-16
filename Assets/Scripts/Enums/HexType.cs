@@ -1,5 +1,8 @@
 public enum HexType
 {
+    Unknown,
     Grass,
-    Obstacle
+    Obstacle,
+    Sand,
+    Water
 }

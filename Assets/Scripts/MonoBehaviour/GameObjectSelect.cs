@@ -17,16 +17,20 @@ public class GameObjectSelect : MonoBehaviour
     private List<Material> _defaultMaterialList;
     private int _enterCount = 0;
 
+    // This method is called when mouse enters the
+    // collider of this GameObject or it's children
     private void OnMouseEnter()
     {
         if (!enabled) return;
         _enterCount++;
         LabelScript.ChangeSelectedCount(1);
         LabelScript.DisplayText(Label);
-        // set default materials only for the first time
+        // sets default materials only for the first time
         SetAllMaterials(_selectedMaterial, _enterCount == 1);
     }
 
+    // This method is called when mouse exits the
+    // collider of this GameObject or it's children
     private void OnMouseExit()
     {
         if (!enabled) return;

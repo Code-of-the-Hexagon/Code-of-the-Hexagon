@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 
+// world class contains information about everything in the world
 public class World
 {
     public World()

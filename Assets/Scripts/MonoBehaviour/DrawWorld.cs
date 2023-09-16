@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,6 +27,7 @@ public class DrawWorld : MonoBehaviour
     // scale of hexagon
     private const int Scale = 100; 
 
+    // Draw method converts World class to real world in unity
     public void Draw(World world)
     {
         _hexagonMesh = _hexagonMeshFilter.mesh;
@@ -41,8 +43,24 @@ public class DrawWorld : MonoBehaviour
                     : new Vector3(hexCell.Coordinates.X * _x, hexCell.Height, hexCell.Coordinates.Y * _y),
                 new Vector3(),
                 _cellContainer.transform);
-            placedCell.GetComponent<GameObjectSelect>().Label = hexCell.Coordinates.ToString();//$"X = {hexCell.Coordinates.X} Y = {hexCell.Coordinates.Y}";
-            placedCell.GetComponent<GameObjectSelect>().LabelScript = _cellTextScript;
+            if (hexCell.Type == HexType.Unknown)
+            {
+                throw new Exception("hexCell type in unknown");
+            }
+            else if (hexCell.Type == HexType.Obstacle)
+            {
+                placedCell.GetComponent<GameObjectSelect>().enabled = false;
+                _assetPlacer.PlaceGameObject(
+                    _hexObstacleAsset,
+                    placedCell.GetComponent<GameObjectSpawnPoint>().SpawnPoint.position,
+                    new Vector3(),
+                    placedCell.transform);
+            }
+            else
+            {
+                placedCell.GetComponent<GameObjectSelect>().Label = $"X = {hexCell.Coordinates.X} Y = {hexCell.Coordinates.Y}";
+                placedCell.GetComponent<GameObjectSelect>().LabelScript = _cellTextScript;
+            }
         }
     }
 }

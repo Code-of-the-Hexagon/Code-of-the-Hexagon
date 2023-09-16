@@ -19,6 +19,6 @@ public static class GameConstants
 
     public static class WorldGeneration
     {
-        public const int MaxWorldRadius = 50;
+        public const int MaxWorldRadius = 70;
     }
 }
