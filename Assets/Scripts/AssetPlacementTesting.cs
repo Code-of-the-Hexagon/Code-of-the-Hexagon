@@ -27,7 +27,7 @@ public class AssetPlacementTesting : MonoBehaviour
 
     private void Start()
     {
-        AssetPlacer = gameObject.AddComponent<AssetPlacement>(); // prideda assetComponent scripto instance prie Floor GameObject, ir j refrence'ina su assetPlacer
+        AssetPlacer = gameObject.AddComponent<AssetPlacement>(); // adds and references AssetPlacement script
         HexagonMesh = GetComponent<MeshFilter>().mesh;
         _hexagonBounds = HexagonMesh.bounds;
         _x = (_hexagonBounds.max.x * 2) * Scale;     // Coordinate offset
