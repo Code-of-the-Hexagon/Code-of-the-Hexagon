@@ -33,8 +33,8 @@ public class AssetPlacementInRadius : MonoBehaviour
         AssetPlacer = gameObject.AddComponent<AssetPlacement>();
         HexagonMesh = GetComponent<MeshFilter>().mesh;
         _hexagonBounds = HexagonMesh.bounds;
-        _x = (_hexagonBounds.max.x) * Scale;     // Coordinate offset
-        _z = (_hexagonBounds.max.y) * Scale; // calculation
+        _x = _hexagonBounds.max.x * Scale;     // Coordinate offset
+        _z = _hexagonBounds.max.y * Scale; // calculation
         SpawnHexagonsInRadius(5);
     }
 

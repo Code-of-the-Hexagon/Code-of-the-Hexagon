@@ -18,7 +18,7 @@ public class HexCoordinateSystem
     public Vector3 GetXYCoordinates(CubeCoordinates coordinates)
     {
         return new Vector3(
-            (coordinates.Q * (float)_sqrt3 + coordinates.R * (float)_sqrt3 / 2f),
+            ((coordinates.Q * (float)_sqrt3 + coordinates.R * (float)_sqrt3) * 2f),
             0,
             (3f / 2f * coordinates.S));
     }
