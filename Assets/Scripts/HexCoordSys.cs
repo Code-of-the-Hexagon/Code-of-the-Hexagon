@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 public class HexCoordinateSystem
 {
-    private readonly double sqrt3 = System.Math.Sqrt(3);
+    private readonly double _sqrt3 = System.Math.Sqrt(3);
     public static CubeCoordinates[] DirectionVectorListTuple { get; } = new CubeCoordinates[6] // cube direction vector list for q,r,s coordinate system
     {
         new CubeCoordinates(1, 0, -1),
@@ -15,10 +15,12 @@ public class HexCoordinateSystem
         new CubeCoordinates(0, 1, -1)
     };
 
-    public (float x, float y) GetXYCoordinates(CubeCoordinates coordinates)
+    public Vector3 GetXYCoordinates(CubeCoordinates coordinates)
     {
-        return ((coordinates.Q * (float)sqrt3 + coordinates.R * (float)sqrt3 / 2f)
-            , (3f / 2f * coordinates.S));
+        return new Vector3(
+            (coordinates.Q * (float)_sqrt3 + coordinates.R * (float)_sqrt3 / 2f),
+            0,
+            (3f / 2f * coordinates.S));
     }
     private CubeCoordinates GetDirection(int direction) // retrieves direction vector.     0 is +q -s (right)      1 is +q -r (top right)   and so on counter clockwise.
     {

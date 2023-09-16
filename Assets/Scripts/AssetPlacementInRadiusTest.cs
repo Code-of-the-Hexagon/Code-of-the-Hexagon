@@ -4,50 +4,68 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 public class AssetPlacementInRadius : MonoBehaviour
 {
-    public Mesh HexagonMesh;
-    private Bounds _hexagonBounds;
+    // Scripts
     public AssetPlacement AssetPlacer;
-    public Vector3 TileRotation = new Vector3();
-    private int _scale = 100; // scale of hex
-    private HexCoordinateSystem _hexCoordinateSystem = new HexCoordinateSystem();
-    private string _floorModelDirectory = "Hexes/";
-    private string _hexName = "defaultHex";
+    private HexCoordinateSystem _coordinateSystem = new HexCoordinateSystem();
+    
+    // GameObject stuff
+    public Mesh HexagonMesh;
+    public GameObject HexAsset;
+    public GameObject HexObstacleAsset;
+    public SelectedCellText CellTextScript;
+    public GameObject CellContainer;
 
-    public float TestUpperHeightLimit = 0.4f;
-    public float TestLowerHeightLimit = 0f;
+    // Calculation stuff
+    private const int Scale = 100; // scale of hexagon
+    private Bounds _hexagonBounds;
+    private float _x;
+    private float _z;
+
+    public float TestUpperHeightLimit = 1;
+    public float TestLowerHeightLimit = 0;
 
     private void Start()
     {
         AssetPlacer = gameObject.AddComponent<AssetPlacement>();
-        AssetPlacer.floorChildren = new List<GameObject>();
-        TileRotation.x = 90f;
         HexagonMesh = GetComponent<MeshFilter>().mesh;
         _hexagonBounds = HexagonMesh.bounds;
-        SpawnHexagonsInRadius(20);
+        _x = (_hexagonBounds.max.x) * Scale;     // Coordinate offset
+        _z = (_hexagonBounds.max.y) * Scale; // calculation
+        SpawnHexagonsInRadius(5);
     }
 
     public void SpawnHexagonsInRadius(int radius)
     {
-        var centerQ = 0;
-        var centerR = 0;
-        var centerS = 0;
+        const int centerQ = 0;
+        const int centerR = 0;
+        const int centerS = 0;
 
-        // Loop through coordinates in the specified radius
         for (var q = -radius; q <= radius; q++)
         {
             for (var r = Math.Max(-radius, -q - radius); r <= Math.Min(radius, -q + radius); r++)
             { 
                 var s = -q - r;
-                var distance = _hexCoordinateSystem.GetDistance((q, r, s), (centerQ, centerR, centerS));
+                var distance = _coordinateSystem.GetDistance(
+                    new CubeCoordinates(q, r, s),
+                    new CubeCoordinates(centerQ, centerR, centerS));
 
                 if (distance <= radius)
                 {
-                    var coordinates = _hexCoordinateSystem.GetXYCoordinates(new InClassName(new InClassName((q, r, s))));
-
+                    var position = _coordinateSystem.GetXYCoordinates(new CubeCoordinates(q,r,s));
+                    position.y = Random.Range(TestLowerHeightLimit, TestUpperHeightLimit);
+                    position.x = position.x * _x; 
+                    position.z = position.z * _z; 
                     
+                    var placedCell = AssetPlacer.PlaceGameObject(
+                        HexAsset,
+                        position,
+                        new Vector3(),
+                        CellContainer.transform);
+
                 }
             }
         }
