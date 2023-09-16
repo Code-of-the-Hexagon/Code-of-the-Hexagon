@@ -16,4 +16,9 @@ public static class GameConstants
         public static readonly Vector3 FreeCameraLowerLimit =
             new (-100f, 0f, -100f);
     }
+
+    public static class WorldGeneration
+    {
+        public const int MaxWorldRadius = 50;
+    }
 }

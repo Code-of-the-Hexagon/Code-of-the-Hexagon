@@ -62,7 +62,7 @@ public class AssetPlacementTesting : MonoBehaviour
                 }
                 else
                 {
-                    placedCell.GetComponent<GameObjectSelect>().SetLabel($"X = {i} Y = {j}");
+                    placedCell.GetComponent<GameObjectSelect>().Label = $"X = {i} Y = {j}";
                     placedCell.GetComponent<GameObjectSelect>().LabelScript = CellTextScript;
                 }
             }

@@ -129,6 +129,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 206451339}
+  - component: {fileID: 206451340}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -151,6 +152,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &206451340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206451338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d15bf1c6411b50843b749f178749f60d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _worldDrawer: {fileID: 295430246}
 --- !u!1 &209212317
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,6 +219,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 295430245}
+  - component: {fileID: 295430246}
+  - component: {fileID: 295430247}
+  - component: {fileID: 295430248}
   m_Layer: 0
   m_Name: World Sculptor
   m_TagString: Untagged
@@ -227,6 +244,44 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &295430246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 295430244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86982f4d7eaa9614fa9f368f78c065ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _assetPlacer: {fileID: 295430248}
+  _hexagonMeshFilter: {fileID: 295430247}
+  _hexAsset: {fileID: 3754589174170542805, guid: 3d3c0303c10b590459c1a5ca9b9444e0, type: 3}
+  _hexObstacleAsset: {fileID: 3754589174170542805, guid: b35df7b5586170f4495070b6161763fd, type: 3}
+  _cellTextScript: {fileID: 1866503534}
+  _cellContainer: {fileID: 2031528826}
+--- !u!33 &295430247
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 295430244}
+  m_Mesh: {fileID: 2534964839176971238, guid: 599f43931b6cd8d4fb92095f3c630893, type: 3}
+--- !u!114 &295430248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 295430244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85dc377a4357c8b4bab37b703ddf3031, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &532219321
 GameObject:
   m_ObjectHideFlags: 0
@@ -364,8 +419,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 96.95712, y: -20.128967}
-  m_SizeDelta: {x: 193.91418, y: 40.257996}
+  m_AnchoredPosition: {x: 95.5, y: -19}
+  m_SizeDelta: {x: 193, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &814192222
 MonoBehaviour:
@@ -721,11 +776,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 21.7
+  m_fontSize: 21.6
   m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
+  m_fontSizeMin: 10
   m_fontSizeMax: 25
   m_fontStyle: 0
   m_HorizontalAlignment: 2
@@ -849,7 +904,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2031528828}
   - component: {fileID: 2031528829}
-  - component: {fileID: 2031528830}
   m_Layer: 0
   m_Name: CellContainer
   m_TagString: Untagged
@@ -880,27 +934,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2031528826}
   m_Mesh: {fileID: 2534964839176971238, guid: 599f43931b6cd8d4fb92095f3c630893, type: 3}
---- !u!114 &2031528830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2031528826}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60fe18513469d9943ac30d8d776b2423, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AssetPlacer: {fileID: 0}
-  TestUpperHeightLimit: 1
-  TestLowerHeightLimit: 0
-  TestCollumns: 30
-  TestRows: 30
-  HexagonMesh: {fileID: 0}
-  HexAsset: {fileID: 3754589174170542805, guid: 3d3c0303c10b590459c1a5ca9b9444e0, type: 3}
-  CellTextScript: {fileID: 1866503534}
-  CellContainer: {fileID: 2031528826}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

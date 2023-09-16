@@ -7,6 +7,7 @@ using UnityEngine;
 public class GameObjectSelect : MonoBehaviour
 {
     public SelectedCellText LabelScript { get; set; }
+    public string Label { get; set; }
 
     [SerializeField]
     private List<MeshRenderer> _rendererList = new();
@@ -14,7 +15,6 @@ public class GameObjectSelect : MonoBehaviour
     private Material _selectedMaterial;
 
     private List<Material> _defaultMaterialList;
-    private string _label;
     private int _enterCount = 0;
 
     private void OnMouseEnter()
@@ -22,7 +22,8 @@ public class GameObjectSelect : MonoBehaviour
         if (!enabled) return;
         _enterCount++;
         LabelScript.ChangeSelectedCount(1);
-        LabelScript.DisplayText(_label);
+        LabelScript.DisplayText(Label);
+        // set default materials only for the first time
         SetAllMaterials(_selectedMaterial, _enterCount == 1);
     }
 
@@ -31,11 +32,6 @@ public class GameObjectSelect : MonoBehaviour
         if (!enabled) return;
         LabelScript.ChangeSelectedCount(-1);
         SetAllMaterialsToDefault();
-    }
-
-    public void SetLabel(string label)
-    {
-        _label = label;
     }
 
     private void SetAllMaterialsToDefault()
