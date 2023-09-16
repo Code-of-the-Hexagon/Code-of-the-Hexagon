@@ -22,8 +22,7 @@ public class AssetPlacementInRadius : MonoBehaviour
     // Calculation stuff
     private const int Scale = 100; // scale of hexagon
     private Bounds _hexagonBounds;
-    private float _x;
-    private float _z;
+    private float _size; // hexagon size/radius
 
     public float TestUpperHeightLimit = 1;
     public float TestLowerHeightLimit = 0;
@@ -33,9 +32,8 @@ public class AssetPlacementInRadius : MonoBehaviour
         AssetPlacer = gameObject.AddComponent<AssetPlacement>();
         HexagonMesh = GetComponent<MeshFilter>().mesh;
         _hexagonBounds = HexagonMesh.bounds;
-        _x = _hexagonBounds.max.x * Scale;     // Coordinate offset
-        _z = _hexagonBounds.max.y * Scale; // calculation
-        SpawnHexagonsInRadius(5);
+        _size = _hexagonBounds.max.y * Scale;
+        SpawnHexagonsInRadius(1);
     }
 
     public void SpawnHexagonsInRadius(int radius)
@@ -57,8 +55,8 @@ public class AssetPlacementInRadius : MonoBehaviour
                 {
                     var position = _coordinateSystem.GetXYCoordinates(new CubeCoordinates(q,r,s));
                     position.y = Random.Range(TestLowerHeightLimit, TestUpperHeightLimit);
-                    position.x = position.x * _x; 
-                    position.z = position.z * _z; 
+                    //position.x = position.x * _size; 
+                    //position.z = position.z * _size; 
                     
                     var placedCell = AssetPlacer.PlaceGameObject(
                         HexAsset,
